@@ -161,4 +161,38 @@ export default function(pi: ExtensionAPI) {
       };
     }
   });
+
+  pi.registerTool({
+    name: "supermemory_list_documents",
+    label: "Supermemory List Documents",
+    description: "List documents in a Supermemory container.",
+    parameters: Type.Object({
+      containerTag: Type.Optional(Type.String({ description: "Optional container tag to filter by" })),
+    }),
+    async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+      if (!config?.apiKey) {
+        throw new Error("Supermemory API key not configured. Run /supermemory-setup first.");
+      }
+
+      const tag = params.containerTag || config.containerTag || "pi-user";
+      const response = await fetch(`${config.apiUrl}/v3/documents?containerTag=${tag}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${config.apiKey}`
+        },
+        signal
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Supermemory list documents failed: ${response.status} - ${error}`);
+      }
+
+      const data = await response.json();
+      return {
+        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+        details: { result: data }
+      };
+    }
+  });
 }
