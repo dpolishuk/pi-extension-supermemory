@@ -87,6 +87,11 @@ Directly create memories without the full document processing pipeline. Ideal fo
 
 This repository includes a comprehensive test suite covering unit, integration, and E2E scenarios.
 
+### GitHub Actions CI
+The repository is configured with a GitHub Actions workflow that automatically:
+1. Runs **Unit & Integration** tests on every push and pull request.
+2. Runs **Live E2E** tests on every push to `master` (requires `SUPERMEMORY_API_KEY` to be set in GitHub Secrets).
+
 ### Unit & Integration Tests
 We use [Vitest](https://vitest.dev/) for testing the extension logic and API integrations.
 

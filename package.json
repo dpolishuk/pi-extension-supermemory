@@ -4,8 +4,8 @@
   "description": "Pi extension for Supermemory AI",
   "type": "module",
   "scripts": {
-    "test": "cd .pi/extensions/supermemory && npm test",
-    "test:e2e": "export $(cat .env | xargs) && npx ts-node test/e2e.ts"
+    "test": "cd .pi/extensions/supermemory && npm install && npm test",
+    "test:e2e": "npx ts-node test/e2e.ts"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
