@@ -50,7 +50,7 @@ export default function(pi: ExtensionAPI) {
     parameters: Type.Object({
       query: Type.String({ description: "The search query" }),
       searchMode: Type.Optional(Type.Union([Type.Literal("semantic"), Type.Literal("hybrid")], { default: "hybrid" })),
-      containerTag: Type.Optional(Type.String({ description: "Optional container tag to search in" })),
+      containerTags: Type.Optional(Type.Array(Type.String(), { description: "Optional container tags to filter by" })),
     }),
     async execute(_toolCallId, params, signal, _onUpdate, ctx) {
       if (!config?.apiKey) {
@@ -66,7 +66,7 @@ export default function(pi: ExtensionAPI) {
         body: JSON.stringify({ 
           q: params.query,
           searchMode: params.searchMode || "hybrid",
-          containerTags: [params.containerTag || config.containerTag || "pi-user"]
+          containerTags: params.containerTags || [config.containerTag || "pi-user"]
         }),
         signal
       });
@@ -124,6 +124,39 @@ export default function(pi: ExtensionAPI) {
   });
 
   pi.registerTool({
+    name: "supermemory_get_document",
+    label: "Supermemory Get Document",
+    description: "Retrieve a specific document by its ID.",
+    parameters: Type.Object({
+      documentId: Type.String({ description: "ID of the document to retrieve" }),
+    }),
+    async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+      if (!config?.apiKey) {
+        throw new Error("Supermemory API key not configured. Run /supermemory-setup first.");
+      }
+
+      const response = await fetch(`${config.apiUrl}/v3/documents/${params.documentId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${config.apiKey}`
+        },
+        signal
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Supermemory get document failed: ${response.status} - ${error}`);
+      }
+
+      const data = await response.json();
+      return {
+        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+        details: { document: data }
+      };
+    }
+  });
+
+  pi.registerTool({
     name: "supermemory_add_memory",
     label: "Supermemory Add Memory",
     description: "Create direct memories bypassing document ingestion.",
@@ -159,7 +192,7 @@ export default function(pi: ExtensionAPI) {
 
       const data = await response.json();
       return {
-        content: [{ type: "text", text: `Successfully created ${data.memories?.length || 0} memories.` }],
+        content: [{ type: "text", text: `Successfully created ${data.memories?.length || 0} memories. Document ID: ${data.documentId}` }],
         details: { result: data }
       };
     }
@@ -336,7 +369,40 @@ export default function(pi: ExtensionAPI) {
 
       const data = await response.json();
       return {
-        content: [{ type: "text", text: `Memory ${params.memoryId} updated successfully.` }],
+        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+        details: { memory: data }
+      };
+    }
+  });
+
+  pi.registerTool({
+    name: "supermemory_get_memory",
+    label: "Supermemory Get Memory",
+    description: "Retrieve a specific memory by its ID.",
+    parameters: Type.Object({
+      memoryId: Type.String({ description: "ID of the memory to retrieve" }),
+    }),
+    async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+      if (!config?.apiKey) {
+        throw new Error("Supermemory API key not configured. Run /supermemory-setup first.");
+      }
+
+      const response = await fetch(`${config.apiUrl}/v4/memories/${params.memoryId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${config.apiKey}`
+        },
+        signal
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Supermemory get memory failed: ${response.status} - ${error}`);
+      }
+
+      const data = await response.json();
+      return {
+        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
         details: { memory: data }
       };
     }
