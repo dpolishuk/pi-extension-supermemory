@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "supermemory": {
+      "source": "supermemoryai/supermemory",
+      "sourceType": "github",
+      "computedHash": "eeb50cbfcd86e7f9aad74a038c304d3cc1d29012abdc26ba7226f228b3508372"
+    }
+  }
+}

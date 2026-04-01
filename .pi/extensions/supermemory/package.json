@@ -1,0 +1,17 @@
+{
+  "name": "pi-supermemory",
+  "version": "0.1.0",
+  "description": "Pi extension for Supermemory AI",
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "latest",
+    "@sinclair/typebox": "latest",
+    "@mariozechner/pi-ai": "latest",
+    "@mariozechner/pi-tui": "latest"
+  }
+}
