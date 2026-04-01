@@ -63,7 +63,7 @@ export default function(pi: ExtensionAPI) {
           "Authorization": `Bearer ${config.apiKey}`
         },
         body: JSON.stringify({ 
-          query: params.query,
+          q: params.query,
           searchMode: params.searchMode || "hybrid",
           containerTags: [config.containerTag || "pi-user"]
         }),
