@@ -277,14 +277,14 @@ export default function(pi: ExtensionAPI) {
         throw new Error("Supermemory API key not configured. Run /supermemory-setup first.");
       }
 
-      const response = await fetch(`${config.apiUrl}/v3/profile`, {
+      const response = await fetch(`${config.apiUrl}/v4/profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${config.apiKey}`
         },
         body: JSON.stringify({ 
-          query: params.query,
+          q: params.query,
           containerTag: params.containerTag || config.containerTag || "pi-user"
         }),
         signal
