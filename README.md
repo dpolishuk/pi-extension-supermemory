@@ -12,8 +12,28 @@ A powerful extension for the [Pi coding agent](https://github.com/mariozechner/p
 
 ## Installation
 
-### 1. Manual Installation
-Clone this repository and copy the extension to your Pi extensions directory:
+### 1. Native Pi Package (Recommended)
+Add this repository to your global Pi `settings.json` (usually at `~/.pi/agent/settings.json`) in the `packages` array:
+
+```json
+{
+  "packages": [
+    "git:github.com/dpolishuk/pi-extension-supermemory"
+  ]
+}
+```
+
+Pi will automatically download, install, and update the extension for you.
+
+### 2. Skills CLI
+You can also install the tools and extension via the `skills` CLI:
+
+```bash
+npx skills add dpolishuk/pi-extension-supermemory -g -y
+```
+
+### 3. Manual Installation
+Clone this repository and copy the source to your Pi extensions directory:
 
 ```bash
 # Global installation
