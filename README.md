@@ -83,10 +83,29 @@ Directly create memories without the full document processing pipeline. Ideal fo
 - **Arguments**:
   - `memories` (array): List of memory objects with `content` (string) and optional `isStatic` (boolean).
 
-## About Supermemory
-Supermemory is a state-of-the-art memory and context infrastructure for AI agents. It provides:
-- **Persistent memory across conversations**
-- **Personalized AI experiences**
-- **Advanced RAG (Retrieval-Augmented Generation)**
+## Testing
 
-For more information, visit [supermemory.ai](https://supermemory.ai).
+This repository includes a comprehensive test suite covering unit, integration, and E2E scenarios.
+
+### Unit & Integration Tests
+We use [Vitest](https://vitest.dev/) for testing the extension logic and API integrations.
+
+```bash
+cd .pi/extensions/supermemory
+npm install
+npm test
+```
+
+### E2E Tests
+E2E tests run against the live Supermemory API. 
+
+1. Create a `.env` file in the root directory:
+   ```env
+   SUPERMEMORY_API_KEY=your_actual_api_key
+   SUPERMEMORY_CONTAINER_TAG=pi-e2e-test
+   ```
+2. Run the E2E suite:
+   ```bash
+   npm install
+   npm run test:e2e
+   ```

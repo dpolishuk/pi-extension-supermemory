@@ -13,5 +13,13 @@
     "@sinclair/typebox": "latest",
     "@mariozechner/pi-ai": "latest",
     "@mariozechner/pi-tui": "latest"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "expect": "latest"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
   }
 }

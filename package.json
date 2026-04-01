@@ -1,0 +1,16 @@
+{
+  "name": "pi-extension-supermemory",
+  "version": "0.1.0",
+  "description": "Pi extension for Supermemory AI",
+  "type": "module",
+  "scripts": {
+    "test": "cd .pi/extensions/supermemory && npm test",
+    "test:e2e": "export $(cat .env | xargs) && npx ts-node test/e2e.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "dotenv": "^16.0.0",
+    "supermemory": "latest"
+  }
+}
